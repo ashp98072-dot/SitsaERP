@@ -35,3 +35,14 @@ export type {
   InventoryDashboardStats,
 } from "./inventory";
 export { KARDEX_KIND_LABELS } from "./inventory";
+
+export type {
+  DispatchStatus,
+  DispatchAction,
+  DispatchTimelineEntry,
+  DispatchDashboardStats,
+} from "./dispatch";
+export {
+  DISPATCH_STATUS_LABELS,
+  DISPATCH_ACTION_LABELS,
+} from "./dispatch";

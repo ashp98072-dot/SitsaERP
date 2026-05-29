@@ -13,6 +13,9 @@ export const queryKeys = {
   },
   dispatches: {
     all: ["dispatches"] as const,
+    dashboard: ["dispatches", "dashboard"] as const,
+    detail: (id: string) => ["dispatches", "detail", id] as const,
+    timeline: (id: string) => ["dispatches", "timeline", id] as const,
   },
   entries: {
     all: ["entries"] as const,

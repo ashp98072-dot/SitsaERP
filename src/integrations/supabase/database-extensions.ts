@@ -167,8 +167,63 @@ export type Database = GeneratedDatabase & {
         Args: Record<string, never>;
         Returns: Record<string, unknown>;
       };
+      create_dispatch_draft: {
+        Args: {
+          p_client_id: string;
+          p_dispatch_date: string;
+          p_driver: string;
+          p_vehicle: string;
+          p_destination: string;
+          p_notes: string;
+          p_logistics_notes: string;
+          p_warehouse_id: string | null;
+          p_items: unknown;
+        };
+        Returns: GeneratedDatabase["public"]["Tables"]["dispatches"]["Row"];
+      };
+      update_dispatch_draft: {
+        Args: {
+          p_dispatch_id: string;
+          p_client_id: string;
+          p_dispatch_date: string;
+          p_driver: string;
+          p_vehicle: string;
+          p_destination: string;
+          p_notes: string;
+          p_logistics_notes: string;
+          p_warehouse_id: string | null;
+          p_items: unknown;
+        };
+        Returns: GeneratedDatabase["public"]["Tables"]["dispatches"]["Row"];
+      };
+      transition_dispatch_status: {
+        Args: {
+          p_dispatch_id: string;
+          p_action: string;
+          p_notes?: string | null;
+        };
+        Returns: GeneratedDatabase["public"]["Tables"]["dispatches"]["Row"];
+      };
+      get_dispatch_dashboard_stats: {
+        Args: Record<string, never>;
+        Returns: Record<string, unknown>;
+      };
     };
     Views: GeneratedDatabase["public"]["Views"] & {
+      dispatch_timeline: {
+        Row: {
+          id: string;
+          dispatch_id: string;
+          from_status: string | null;
+          to_status: string;
+          notes: string | null;
+          created_at: string;
+          changed_by: string | null;
+          changed_by_email: string | null;
+          changed_by_name: string | null;
+        };
+        Relationships: [];
+      };
       product_stock_enriched: {
         Row: {
           product_id: string;

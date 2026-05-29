@@ -24,6 +24,7 @@ export type Permission =
   | "entries:write"
   | "dispatches:read"
   | "dispatches:write"
+  | "dispatches:approve"
   | "dispatches:pdf"
   | "admin:access"
   | "audit:read";
@@ -41,6 +42,7 @@ const ROLE_PERMISSIONS: Record<AppRole, ReadonlySet<Permission>> = {
     "entries:write",
     "dispatches:read",
     "dispatches:write",
+    "dispatches:approve",
     "dispatches:pdf",
     "admin:access",
     "audit:read",
@@ -53,6 +55,7 @@ const ROLE_PERMISSIONS: Record<AppRole, ReadonlySet<Permission>> = {
     "inventory:adjust",
     "entries:read",
     "dispatches:read",
+    "dispatches:approve",
     "dispatches:pdf",
     "audit:read",
   ]),
@@ -91,6 +94,7 @@ export const ROUTE_PERMISSIONS: Record<string, Permission> = {
   "/entries": "entries:read",
   "/dispatches": "dispatches:read",
   "/dispatches/new": "dispatches:write",
+  "/dispatches/$dispatchId": "dispatches:read",
   "/admin": "admin:access",
   "/admin/users": "admin:access",
   "/admin/access": "admin:access",

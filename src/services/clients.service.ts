@@ -23,7 +23,7 @@ export async function fetchClientsPage(params: PageParams): Promise<PaginatedRes
 export async function fetchClientSummaries(): Promise<ClientSummary[]> {
   const { data, error } = await supabase
     .from("clients")
-    .select("id, company, nit, address, contact_name")
+    .select("id, company, nit, address, contact_name, phone")
     .order("company");
   throwIfError(error);
   return data ?? [];

@@ -3,6 +3,7 @@ export * from "./products.service";
 export * from "./suppliers.service";
 export * from "./inventory.service";
 export * from "./dispatches.service";
+export * from "./dispatch";
 export * from "./entries.service";
 export * from "./auth.service";
 export * from "./operations.service";

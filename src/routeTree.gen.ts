@@ -22,6 +22,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedClientsRouteImport } from './routes/_authenticated/clients'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedDispatchesNewRouteImport } from './routes/_authenticated/dispatches.new'
+import { Route as AuthenticatedDispatchesDispatchIdRouteImport } from './routes/_authenticated/dispatches.$dispatchId'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin.users'
 import { Route as AuthenticatedAdminAuditRouteImport } from './routes/_authenticated/admin/audit'
 import { Route as AuthenticatedAdminAccessRouteImport } from './routes/_authenticated/admin.access'
@@ -91,6 +92,12 @@ const AuthenticatedDispatchesNewRoute =
     path: '/new',
     getParentRoute: () => AuthenticatedDispatchesRoute,
   } as any)
+const AuthenticatedDispatchesDispatchIdRoute =
+  AuthenticatedDispatchesDispatchIdRouteImport.update({
+    id: '/$dispatchId',
+    path: '/$dispatchId',
+    getParentRoute: () => AuthenticatedDispatchesRoute,
+  } as any)
 const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -123,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/dispatches/$dispatchId': typeof AuthenticatedDispatchesDispatchIdRoute
   '/dispatches/new': typeof AuthenticatedDispatchesNewRoute
 }
 export interface FileRoutesByTo {
@@ -140,6 +148,7 @@ export interface FileRoutesByTo {
   '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/dispatches/$dispatchId': typeof AuthenticatedDispatchesDispatchIdRoute
   '/dispatches/new': typeof AuthenticatedDispatchesNewRoute
 }
 export interface FileRoutesById {
@@ -159,6 +168,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/access': typeof AuthenticatedAdminAccessRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/dispatches/$dispatchId': typeof AuthenticatedDispatchesDispatchIdRoute
   '/_authenticated/dispatches/new': typeof AuthenticatedDispatchesNewRoute
 }
 export interface FileRouteTypes {
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/admin/access'
     | '/admin/audit'
     | '/admin/users'
+    | '/dispatches/$dispatchId'
     | '/dispatches/new'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -195,6 +206,7 @@ export interface FileRouteTypes {
     | '/admin/access'
     | '/admin/audit'
     | '/admin/users'
+    | '/dispatches/$dispatchId'
     | '/dispatches/new'
   id:
     | '__root__'
@@ -213,6 +225,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/access'
     | '/_authenticated/admin/audit'
     | '/_authenticated/admin/users'
+    | '/_authenticated/dispatches/$dispatchId'
     | '/_authenticated/dispatches/new'
   fileRoutesById: FileRoutesById
 }
@@ -317,6 +330,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDispatchesNewRouteImport
       parentRoute: typeof AuthenticatedDispatchesRoute
     }
+    '/_authenticated/dispatches/$dispatchId': {
+      id: '/_authenticated/dispatches/$dispatchId'
+      path: '/$dispatchId'
+      fullPath: '/dispatches/$dispatchId'
+      preLoaderRoute: typeof AuthenticatedDispatchesDispatchIdRouteImport
+      parentRoute: typeof AuthenticatedDispatchesRoute
+    }
     '/_authenticated/admin/users': {
       id: '/_authenticated/admin/users'
       path: '/users'
@@ -357,11 +377,14 @@ const AuthenticatedAdminRouteWithChildren =
   AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
 
 interface AuthenticatedDispatchesRouteChildren {
+  AuthenticatedDispatchesDispatchIdRoute: typeof AuthenticatedDispatchesDispatchIdRoute
   AuthenticatedDispatchesNewRoute: typeof AuthenticatedDispatchesNewRoute
 }
 
 const AuthenticatedDispatchesRouteChildren: AuthenticatedDispatchesRouteChildren =
   {
+    AuthenticatedDispatchesDispatchIdRoute:
+      AuthenticatedDispatchesDispatchIdRoute,
     AuthenticatedDispatchesNewRoute: AuthenticatedDispatchesNewRoute,
   }
 

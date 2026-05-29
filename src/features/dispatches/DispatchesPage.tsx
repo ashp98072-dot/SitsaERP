@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { FileDown, Plus, Truck } from "lucide-react";
-import { toast } from "sonner";
+import { Eye, Plus, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -19,10 +18,13 @@ import { PaginationControls } from "@/components/common/PaginationControls";
 import { TableSkeleton } from "@/components/common/TableSkeleton";
 import { useClientSummaries } from "@/hooks/use-clients";
 import { useDispatchesPage } from "@/hooks/use-dispatches";
-import { downloadDispatchPdfById } from "@/pdf";
+import { formatDispatchCorrelative } from "@/services/dispatch/dispatch-pdf.service";
+import { BRAND } from "@/lib/brand";
 import { indexById } from "@/utils/maps";
-import { getErrorMessage } from "@/utils/errors";
 import type { Dispatch } from "@/types";
+import type { DispatchStatus } from "@/types/dispatch";
+import { DispatchKpiCards } from "./DispatchKpiCards";
+import { DispatchStatusBadge } from "./DispatchStatusBadge";
 
 export function DispatchesPage() {
   const [page, setPage] = useState(0);
@@ -30,21 +32,13 @@ export function DispatchesPage() {
   const { data: clients = [] } = useClientSummaries();
   const clientsById = indexById(clients);
 
-  async function handleDownload(dispatch: Dispatch) {
-    try {
-      await downloadDispatchPdfById(dispatch);
-    } catch (error) {
-      toast.error(getErrorMessage(error));
-    }
-  }
-
   const rows = data?.rows ?? [];
 
   return (
     <div className="space-y-4">
       <PageHeader
         title="Despachos"
-        description="Mercadería entregada a clientes con comprobante PDF."
+        description={`Control logístico y comprobantes · ${BRAND.company}`}
         actions={
           <PermissionGate permission="dispatches:write">
             <Button asChild>
@@ -57,21 +51,24 @@ export function DispatchesPage() {
         }
       />
 
+      <DispatchKpiCards />
+
       <Card className="industrial-card p-4">
         {isLoading ? (
-          <TableSkeleton columns={6} />
+          <TableSkeleton columns={7} />
         ) : rows.length === 0 ? (
           <EmptyState
             icon={Truck}
             title="Sin despachos"
-            description="Aún no hay despachos registrados en el sistema."
+            description="Cree un borrador para iniciar el flujo de aprobación y salida de inventario."
           />
         ) : (
           <>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Folio</TableHead>
+                  <TableHead>Correlativo</TableHead>
+                  <TableHead>Estado</TableHead>
                   <TableHead>Fecha</TableHead>
                   <TableHead>Cliente</TableHead>
                   <TableHead>Piloto</TableHead>
@@ -81,27 +78,11 @@ export function DispatchesPage() {
               </TableHeader>
               <TableBody>
                 {rows.map((dispatch) => (
-                  <TableRow key={dispatch.id}>
-                    <TableCell className="font-mono">
-                      DM-{String(dispatch.folio).padStart(6, "0")}
-                    </TableCell>
-                    <TableCell>{dispatch.dispatch_date}</TableCell>
-                    <TableCell>{clientsById.get(dispatch.client_id)?.company ?? "—"}</TableCell>
-                    <TableCell>{dispatch.driver || "—"}</TableCell>
-                    <TableCell>{dispatch.vehicle || "—"}</TableCell>
-                    <TableCell className="text-right">
-                      <PermissionGate permission="dispatches:pdf">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => void handleDownload(dispatch)}
-                        >
-                          <FileDown className="h-4 w-4 mr-1" />
-                          PDF
-                        </Button>
-                      </PermissionGate>
-                    </TableCell>
-                  </TableRow>
+                  <DispatchRow
+                    key={dispatch.id}
+                    dispatch={dispatch}
+                    clientName={clientsById.get(dispatch.client_id)?.company ?? "—"}
+                  />
                 ))}
               </TableBody>
             </Table>
@@ -117,5 +98,30 @@ export function DispatchesPage() {
         )}
       </Card>
     </div>
+  );
+}
+
+function DispatchRow({ dispatch, clientName }: { dispatch: Dispatch; clientName: string }) {
+  const correlative = formatDispatchCorrelative(dispatch);
+
+  return (
+    <TableRow>
+      <TableCell className="font-mono text-xs font-semibold">{correlative}</TableCell>
+      <TableCell>
+        <DispatchStatusBadge status={dispatch.status as DispatchStatus} />
+      </TableCell>
+      <TableCell>{dispatch.dispatch_date}</TableCell>
+      <TableCell>{clientName}</TableCell>
+      <TableCell>{dispatch.driver || "—"}</TableCell>
+      <TableCell>{dispatch.vehicle || "—"}</TableCell>
+      <TableCell className="text-right">
+        <Button size="sm" variant="outline" asChild>
+          <Link to="/dispatches/$dispatchId" params={{ dispatchId: dispatch.id }}>
+            <Eye className="h-4 w-4 mr-1" />
+            Detalle
+          </Link>
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 }

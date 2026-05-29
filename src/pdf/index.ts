@@ -21,3 +21,17 @@ export async function generateDispatchPdf(
   const { generateDispatchPdf: generate } = await import("./dispatch-document");
   return generate(...args);
 }
+
+export async function loadDispatchPdfBlob(
+  ...args: Parameters<(typeof import("./dispatch-service"))["loadDispatchPdfBlob"]>
+) {
+  const { loadDispatchPdfBlob: load } = await import("./dispatch-service");
+  return load(...args);
+}
+
+export async function loadDispatchPdfPreviewData(
+  ...args: Parameters<(typeof import("./dispatch-service"))["loadDispatchPdfPreviewData"]>
+) {
+  const { loadDispatchPdfPreviewData: load } = await import("./dispatch-service");
+  return load(...args);
+}
