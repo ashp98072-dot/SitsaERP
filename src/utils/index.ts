@@ -5,6 +5,8 @@ export {
   CORPORATE_EMAIL_DOMAINS,
   DEFAULT_CORPORATE_EMAIL_DOMAIN,
   INITIAL_ADMIN_EMAIL,
+  INITIAL_ADMIN_USER_ID,
+  isBootstrapAdminUser,
   normalizeEmail,
   normalizeEmailDomain,
   isValidEmailFormat,

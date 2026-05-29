@@ -14,7 +14,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { DEFAULT_CORPORATE_EMAIL_DOMAIN, INITIAL_ADMIN_EMAIL } from "@/utils/constants";
+import {
+  DEFAULT_CORPORATE_EMAIL_DOMAIN,
+  INITIAL_ADMIN_EMAIL,
+  INITIAL_ADMIN_USER_ID,
+} from "@/utils/constants";
 
 export const Route = createFileRoute("/debug/auth")({
   head: () => ({ meta: [{ title: "Debug Auth · ECOPLANET" }] }),
@@ -121,7 +125,10 @@ function DebugAuthPage() {
             bootstrapping,
             hasSession: Boolean(session),
             userId: session?.user.id,
+            expectedAdminUserId: INITIAL_ADMIN_USER_ID,
+            userIdMatchesBootstrap: session?.user.id === INITIAL_ADMIN_USER_ID,
             email: session?.user.email,
+            expectedAdminEmail: INITIAL_ADMIN_EMAIL,
             roles,
           }}
         />

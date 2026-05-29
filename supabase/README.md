@@ -14,6 +14,9 @@
 | 5 | `20260529160000_hybrid_access_allowlist.sql` | `allowed_emails` + validación híbrida + admin IT |
 | 6 | `20260529170000_auth_bootstrap_repair.sql` | `ensure_user_bootstrap`, grants RPC, auth repair |
 | 7 | `20260529180000_auth_production_hardening.sql` | Auth producción: bootstrap tolerante, IT admin |
+| 8 | `20260529190000_align_bootstrap_admin.sql` | IT bootstrap UID + limpieza huérfanos |
+
+**Administrador bootstrap:** `it@grupo-sitsa.com` · UID `be4c2092-728f-4ebc-a291-d3841fd780f3`
 
 ### Diagnóstico login (400 /token)
 

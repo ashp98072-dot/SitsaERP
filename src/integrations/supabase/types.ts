@@ -484,6 +484,10 @@ export type Database = {
       }
       is_email_allowed: { Args: { _email: string }; Returns: boolean }
       ensure_user_bootstrap: { Args: Record<string, never>; Returns: Json }
+      is_bootstrap_admin: {
+        Args: { p_user_id: string; p_email?: string | null }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "administrador" | "bodega" | "despacho" | "supervisor"

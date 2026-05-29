@@ -10,7 +10,7 @@ import {
 import { validateSupabaseEnvironment } from "@/lib/supabase-config";
 import type { AppRole } from "@/types";
 import {
-  INITIAL_ADMIN_EMAIL,
+  isBootstrapAdminUser,
   isCorporateEmailLocally,
   normalizeEmail,
 } from "@/utils/constants";
@@ -191,28 +191,38 @@ export async function validateEmailAccess(email: string): Promise<EmailAccessRes
 export async function completePostLoginSetup(session: Session): Promise<{
   roles: AppRole[];
   access: EmailAccessResult;
+  bootstrap: Record<string, unknown> | null;
 }> {
-  await ensureUserBootstrap();
-
+  const userId = session.user.id;
   const email = session.user.email ?? "";
-  const access = await validateEmailAccess(email);
+  const isBootstrapAdmin = isBootstrapAdminUser(userId, email);
+
+  let bootstrap = await ensureUserBootstrap();
+  if (!bootstrap && isBootstrapAdmin) {
+    bootstrap = await ensureUserBootstrap();
+  }
+
+  const access = isBootstrapAdmin
+    ? { allowed: true as const, source: "bootstrap" as const, reason: "bootstrap_admin" }
+    : await validateEmailAccess(email);
 
   if (!access.allowed) {
-    return { roles: [], access };
+    return { roles: [], access, bootstrap };
   }
 
-  let roles = await fetchUserRoles(session.user.id);
+  let roles = await fetchUserRoles(userId);
 
   if (roles.length === 0) {
-    await ensureUserBootstrap();
-    roles = await fetchUserRoles(session.user.id);
+    bootstrap = await ensureUserBootstrap();
+    roles = await fetchUserRoles(userId);
   }
 
-  if (roles.length === 0 && normalizeEmail(email) === INITIAL_ADMIN_EMAIL) {
-    roles = ["administrador"];
+  if (isBootstrapAdmin && !roles.includes("administrador")) {
+    roles = ["administrador", ...roles.filter((r) => r !== "administrador")];
+    logAuthDebug("completePostLoginSetup.bootstrapAdminFallback", { userId, email, roles });
   }
 
-  return { roles, access };
+  return { roles, access, bootstrap };
 }
 
 export async function fetchUserRoles(userId: string): Promise<AppRole[]> {

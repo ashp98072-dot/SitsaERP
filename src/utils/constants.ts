@@ -25,8 +25,11 @@ export const CORPORATE_EMAIL_DOMAINS = [
 
 export const DEFAULT_CORPORATE_EMAIL_DOMAIN = "grupo-sitsa.com";
 
-/** Correo que recibe rol administrador al registrarse (dominio @grupo-sitsa.com). */
+/** Administrador principal / bootstrap IT (Supabase Auth). */
 export const INITIAL_ADMIN_EMAIL = "it@grupo-sitsa.com";
+
+/** UID fijo del administrador bootstrap en Supabase Auth. */
+export const INITIAL_ADMIN_USER_ID = "be4c2092-728f-4ebc-a291-d3841fd780f3";
 
 export function normalizeEmail(input: string): string {
   return input.trim().toLowerCase();
@@ -45,6 +48,16 @@ export function extractEmailDomain(email: string): string | null {
   const at = normalized.lastIndexOf("@");
   if (at <= 0 || at === normalized.length - 1) return null;
   return normalized.slice(at + 1);
+}
+
+/** Usuario bootstrap IT: por UID (canónico) o por correo corporativo. */
+export function isBootstrapAdminUser(
+  userId: string | undefined | null,
+  email: string | undefined | null,
+): boolean {
+  if (userId === INITIAL_ADMIN_USER_ID) return true;
+  if (email && normalizeEmail(email) === INITIAL_ADMIN_EMAIL) return true;
+  return false;
 }
 
 /** Fallback cliente si RPC allowlist no responde (NO sustituye política servidor en signup). */
