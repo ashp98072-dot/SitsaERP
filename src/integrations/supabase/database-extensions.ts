@@ -75,6 +75,10 @@ export type Database = GeneratedDatabase & {
       };
     };
     Functions: GeneratedDatabase["public"]["Functions"] & {
+      ensure_user_bootstrap: {
+        Args: Record<string, never>;
+        Returns: Json;
+      };
       register_warehouse_entry: {
         Args: {
           p_product_id: string;

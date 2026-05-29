@@ -41,7 +41,7 @@ import {
   type AppUserRow,
 } from "@/services/admin-api.service";
 import { roleLabel, type AppRole } from "@/contexts/auth-context";
-import { APP_ROLES } from "@/utils/constants";
+import { APP_ROLES, DEFAULT_CORPORATE_EMAIL_DOMAIN } from "@/utils/constants";
 
 export const Route = createFileRoute("/_authenticated/admin/users")({
   component: UsersPage,
@@ -252,7 +252,7 @@ function CreateForm({
             type="email"
             value={values.email}
             onChange={(event) => setValues({ ...values, email: event.target.value })}
-            placeholder="usuario@grupo.sitsa.com"
+            placeholder={`usuario@${DEFAULT_CORPORATE_EMAIL_DOMAIN}`}
           />
         </div>
         <div className="space-y-1.5">
@@ -283,8 +283,9 @@ function CreateForm({
           </Select>
         </div>
         <p className="text-xs text-muted-foreground">
-          Solo correos de dominios autorizados pueden registrarse. Configura dominios en Acceso
-          autorizado.
+          Dominios corporativos (@grupo-sitsa.com, @sitsa.com, @ecoplanet.com) se permiten
+          automáticamente. Para correos externos, agrégalos primero en Acceso autorizado →
+          Excepciones de correo.
         </p>
       </div>
       <DialogFooter>

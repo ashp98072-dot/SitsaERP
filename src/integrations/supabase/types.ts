@@ -483,6 +483,7 @@ export type Database = {
         Returns: boolean
       }
       is_email_allowed: { Args: { _email: string }; Returns: boolean }
+      ensure_user_bootstrap: { Args: Record<string, never>; Returns: Json }
     }
     Enums: {
       app_role: "administrador" | "bodega" | "despacho" | "supervisor"

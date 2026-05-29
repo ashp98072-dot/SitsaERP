@@ -13,6 +13,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DebugAuthRouteImport } from './routes/debug.auth'
 import { Route as AuthenticatedProductsRouteImport } from './routes/_authenticated/products'
 import { Route as AuthenticatedInventoryRouteImport } from './routes/_authenticated/inventory'
 import { Route as AuthenticatedEntriesRouteImport } from './routes/_authenticated/entries'
@@ -42,6 +43,11 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DebugAuthRoute = DebugAuthRouteImport.update({
+  id: '/debug/auth',
+  path: '/debug/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedProductsRoute = AuthenticatedProductsRouteImport.update({
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/entries': typeof AuthenticatedEntriesRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/products': typeof AuthenticatedProductsRoute
+  '/debug/auth': typeof DebugAuthRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/entries': typeof AuthenticatedEntriesRoute
   '/inventory': typeof AuthenticatedInventoryRoute
   '/products': typeof AuthenticatedProductsRoute
+  '/debug/auth': typeof DebugAuthRoute
   '/admin/access': typeof AuthenticatedAdminAccessRoute
   '/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/_authenticated/entries': typeof AuthenticatedEntriesRoute
   '/_authenticated/inventory': typeof AuthenticatedInventoryRoute
   '/_authenticated/products': typeof AuthenticatedProductsRoute
+  '/debug/auth': typeof DebugAuthRoute
   '/_authenticated/admin/access': typeof AuthenticatedAdminAccessRoute
   '/_authenticated/admin/audit': typeof AuthenticatedAdminAuditRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/entries'
     | '/inventory'
     | '/products'
+    | '/debug/auth'
     | '/admin/access'
     | '/admin/audit'
     | '/admin/users'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/entries'
     | '/inventory'
     | '/products'
+    | '/debug/auth'
     | '/admin/access'
     | '/admin/audit'
     | '/admin/users'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '/_authenticated/entries'
     | '/_authenticated/inventory'
     | '/_authenticated/products'
+    | '/debug/auth'
     | '/_authenticated/admin/access'
     | '/_authenticated/admin/audit'
     | '/_authenticated/admin/users'
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  DebugAuthRoute: typeof DebugAuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/debug/auth': {
+      id: '/debug/auth'
+      path: '/debug/auth'
+      fullPath: '/debug/auth'
+      preLoaderRoute: typeof DebugAuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/products': {
@@ -379,6 +399,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  DebugAuthRoute: DebugAuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

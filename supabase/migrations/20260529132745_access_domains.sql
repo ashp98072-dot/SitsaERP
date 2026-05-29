@@ -29,7 +29,7 @@ CREATE POLICY domains_admin_all ON public.allowed_email_domains
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS active boolean NOT NULL DEFAULT true;
 ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS disabled_at timestamptz;
 
--- Domain-only email validation (no allowed_emails whitelist table)
+-- Validación por dominio (complementada con allowed_emails en migración híbrida)
 CREATE OR REPLACE FUNCTION public.is_email_allowed(_email text)
 RETURNS boolean
 LANGUAGE sql
@@ -39,8 +39,8 @@ SET search_path = public
 AS $$
   SELECT EXISTS (
     SELECT 1
-    FROM public.allowed_email_domains
-    WHERE lower(_email) LIKE '%@' || lower(domain)
+    FROM public.allowed_email_domains d
+    WHERE lower(trim(split_part(lower(trim(_email)), '@', 2))) = lower(trim(d.domain))
   );
 $$;
 
@@ -82,7 +82,7 @@ CREATE TRIGGER enforce_email_allowlist_trg
 
 INSERT INTO public.allowed_email_domains (domain, note)
 VALUES
-  ('grupo.sitsa.com', 'Dominio corporativo GRUPO SITSA'),
+  ('grupo-sitsa.com', 'Dominio corporativo GRUPO SITSA (@grupo-sitsa.com)'),
   ('sitsa.com', 'Dominio corporativo SITSA'),
   ('ecoplanet.com', 'Dominio corporativo ECOPLANET')
 ON CONFLICT (domain) DO NOTHING;
