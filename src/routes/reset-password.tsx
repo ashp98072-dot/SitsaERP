@@ -4,11 +4,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { EcoplanetLogo, SitsaLogo } from "@/components/brand/Logos";
+import { BrandLoginHero } from "@/components/brand/Logos";
+import { pageTitle } from "@/lib/brand";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/reset-password")({
-  head: () => ({ meta: [{ title: "Restablecer contraseña" }] }),
+  head: () => ({ meta: [{ title: pageTitle("Restablecer contraseña") }] }),
   component: ResetPasswordPage,
 });
 
@@ -36,7 +37,7 @@ function ResetPasswordPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-6">
       <form onSubmit={submit} className="industrial-card p-8 w-full max-w-sm space-y-5">
-        <div className="flex justify-center gap-3"><EcoplanetLogo className="h-8" /><SitsaLogo className="h-8" /></div>
+        <BrandLoginHero className="items-center mx-auto" />
         <h2 className="text-lg font-semibold text-center">Definir nueva contraseña</h2>
         {!ready && <p className="text-sm text-muted-foreground text-center">Abre el enlace desde tu correo para continuar.</p>}
         <div className="space-y-1.5">

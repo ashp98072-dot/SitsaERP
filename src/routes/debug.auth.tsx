@@ -21,7 +21,7 @@ import {
 } from "@/utils/constants";
 
 export const Route = createFileRoute("/debug/auth")({
-  head: () => ({ meta: [{ title: "Debug Auth · ECOPLANET" }] }),
+  head: () => ({ meta: [{ title: "Debug Auth · GRUPO SITSA ERP" }] }),
   component: DebugAuthPage,
 });
 

@@ -13,13 +13,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { EcoplanetLogo, SitsaLogo } from "@/components/brand/Logos";
+import { BrandLoginHero } from "@/components/brand/Logos";
+import { BRAND, PAGE_TITLES } from "@/lib/brand";
 import { toast } from "sonner";
 import { Loader2, ShieldCheck } from "lucide-react";
 import { DEFAULT_CORPORATE_EMAIL_DOMAIN } from "@/utils/constants";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Iniciar sesión · ECOPLANET / GRUPO SITSA" }] }),
+  head: () => ({ meta: [{ title: PAGE_TITLES.login }] }),
   component: LoginPage,
 });
 
@@ -97,38 +98,34 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen grid md:grid-cols-2">
-      <div className="hidden md:flex flex-col justify-between p-10 text-sidebar-foreground bg-sidebar relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.07] bg-[radial-gradient(circle_at_30%_20%,white,transparent_60%)]" />
-        <div className="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
-        <div className="relative flex items-center gap-3">
-          <EcoplanetLogo className="h-10 w-auto" />
-          <div className="h-8 w-px bg-sidebar-border" />
-          <SitsaLogo className="h-10 w-auto" />
-        </div>
-        <div className="relative">
-          <div className="text-[11px] uppercase tracking-[0.25em] text-primary/80 mb-3">Sistema corporativo</div>
-          <h1 className="text-4xl font-bold leading-tight">
-            Control de Bodega
-            <br />
-            y Despacho Industrial
+      <div className="hidden md:flex flex-col justify-between p-10 text-sidebar-foreground login-panel-industrial relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(circle_at_20%_10%,white,transparent_55%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,oklch(0_0_0/0.25)_100%)]" />
+        <div className="absolute -bottom-40 -right-20 h-[28rem] w-[28rem] rounded-full bg-primary/15 blur-3xl" />
+        <BrandLoginHero className="relative z-10" />
+        <div className="relative z-10 max-w-md">
+          <div className="text-[11px] uppercase tracking-[0.28em] text-sidebar-foreground/50 mb-3">
+            {BRAND.productName}
+          </div>
+          <h1 className="text-3xl xl:text-4xl font-bold leading-tight tracking-tight">
+            {BRAND.systemNameEn}
           </h1>
-          <p className="mt-4 text-sidebar-foreground/70 max-w-md">
-            Plataforma de gestión de inventario, ingresos y despachos de mercadería con comprobantes
-            corporativos imprimibles.
+          <p className="mt-4 text-sidebar-foreground/65 text-sm leading-relaxed">
+            Plataforma corporativa de bodega, inventario y despacho para operaciones logísticas,
+            exportación y control industrial de mercadería.
           </p>
-          <div className="mt-6 flex items-center gap-2 text-xs text-sidebar-foreground/60">
-            <ShieldCheck className="h-4 w-4 text-primary" />
-            Acceso restringido a correos corporativos autorizados
+          <div className="mt-6 flex items-center gap-2 text-xs text-sidebar-foreground/55">
+            <ShieldCheck className="h-4 w-4 text-sidebar-primary" />
+            Acceso restringido · correos corporativos autorizados
           </div>
         </div>
-        <div className="relative text-xs text-sidebar-foreground/40">© ECOPLANET · GRUPO SITSA</div>
+        <div className="relative z-10 text-xs text-sidebar-foreground/40">{BRAND.copyrightWithDivision}</div>
       </div>
 
       <div className="flex items-center justify-center p-6 bg-background">
         <form onSubmit={submit} className="w-full max-w-sm industrial-card p-8 space-y-5">
-          <div className="md:hidden flex items-center justify-center gap-3 mb-2">
-            <EcoplanetLogo className="h-8" />
-            <SitsaLogo className="h-8" />
+          <div className="md:hidden mb-2">
+            <BrandLoginHero className="items-center" />
           </div>
           <div>
             <h2 className="text-xl font-semibold">

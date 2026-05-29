@@ -17,6 +17,7 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageHeader } from "@/components/common/PageHeader";
+import { BRAND } from "@/lib/brand";
 import { useDashboardStats, useStockChartData } from "@/hooks/use-dashboard";
 
 type KpiProps = {
@@ -52,8 +53,8 @@ export function DashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Dashboard"
-        description="Resumen general de operaciones de bodega."
+        title="Dashboard operativo"
+        description={`Resumen de bodega y despacho · ${BRAND.company}`}
       />
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">

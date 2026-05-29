@@ -26,6 +26,7 @@ import {
   fetchAllowedDomains,
   fetchAllowedEmails,
 } from "@/services/access.service";
+import { pageTitle } from "@/lib/brand";
 import {
   CORPORATE_EMAIL_DOMAINS,
   DEFAULT_CORPORATE_EMAIL_DOMAIN,
@@ -33,7 +34,7 @@ import {
 } from "@/utils/constants";
 
 export const Route = createFileRoute("/_authenticated/admin/access")({
-  head: () => ({ meta: [{ title: "Acceso autorizado" }] }),
+  head: () => ({ meta: [{ title: pageTitle("Acceso autorizado") }] }),
   component: AccessPage,
 });
 

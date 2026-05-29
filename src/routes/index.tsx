@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/auth";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ECOPLANET · GRUPO SITSA — Sistema de Bodega" },
+      { title: "GRUPO SITSA ERP — Sistema de Bodega" },
       { name: "description", content: "Plataforma industrial de control de bodega, inventario y despacho de mercadería." },
     ],
   }),

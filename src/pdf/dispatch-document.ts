@@ -8,8 +8,8 @@ export async function generateDispatchPdf(data: DispatchPdfData): Promise<void> 
   const pageWidth = doc.internal.pageSize.getWidth();
   const margin = PDF_BRAND.margin;
 
-  const { eco, sitsa } = await loadBrandImages();
-  drawHeader(doc, pageWidth, margin, eco, sitsa);
+  const { sitsa, ecoplanet } = await loadBrandImages();
+  drawHeader(doc, pageWidth, margin, sitsa, ecoplanet);
 
   let y = drawMetaBox(doc, pageWidth, margin, data);
   y = drawClientSection(doc, pageWidth, margin, y, data);
@@ -26,30 +26,33 @@ function drawHeader(
   doc: jsPDF,
   pageWidth: number,
   margin: number,
-  eco: string,
   sitsa: string,
+  ecoplanet: string,
 ): void {
-  doc.setFillColor(...PDF_BRAND.primary);
+  doc.setFillColor(...PDF_BRAND.headerBg);
   doc.rect(0, 0, pageWidth, PDF_BRAND.headerHeight, "F");
-  doc.setFillColor(...PDF_BRAND.accent);
-  doc.rect(0, PDF_BRAND.headerHeight, pageWidth, 4, "F");
+  doc.setFillColor(...PDF_BRAND.headerAccent);
+  doc.rect(0, PDF_BRAND.headerHeight, pageWidth, 5, "F");
 
-  doc.addImage(eco, "PNG", margin, 18, 56, 56);
-  doc.addImage(sitsa, "PNG", pageWidth - margin - 56, 18, 56, 56);
+  doc.addImage(sitsa, "PNG", margin, 14, 68, 68);
+  doc.addImage(ecoplanet, "PNG", pageWidth - margin - 44, 28, 40, 40);
 
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(18);
-  doc.text(PDF_COPY.title, pageWidth / 2, 42, { align: "center" });
-  doc.setFontSize(10);
+  doc.setFontSize(17);
+  doc.text(PDF_COPY.title, pageWidth / 2, 40, { align: "center" });
+  doc.setFontSize(11);
+  doc.text(PDF_COPY.brand, pageWidth / 2, 58, { align: "center" });
   doc.setFont("helvetica", "normal");
-  doc.text(PDF_COPY.brand, pageWidth / 2, 60, { align: "center" });
-  doc.setFontSize(9);
-  doc.text(PDF_COPY.subtitle, pageWidth / 2, 74, { align: "center" });
+  doc.setFontSize(8);
+  doc.text(PDF_COPY.subtitle, pageWidth / 2, 72, { align: "center" });
+  doc.setFontSize(7);
+  doc.setTextColor(200, 210, 205);
+  doc.text(PDF_COPY.division, pageWidth - margin - 44, 76, { align: "left" });
 }
 
 function drawMetaBox(doc: jsPDF, pageWidth: number, margin: number, data: DispatchPdfData): number {
-  let y = 115;
+  let y = PDF_BRAND.headerHeight + 24;
   doc.setTextColor(20, 20, 20);
   doc.setDrawColor(180);
   doc.setLineWidth(0.6);

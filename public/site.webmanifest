@@ -1,0 +1,10 @@
+{
+  "name": "GRUPO SITSA ERP",
+  "short_name": "GRUPO SITSA",
+  "description": "Sistema logístico de bodega y despacho industrial",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#161c20",
+  "theme_color": "#3a5248",
+  "lang": "es"
+}

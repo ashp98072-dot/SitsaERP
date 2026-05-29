@@ -4,6 +4,7 @@ import { LogOut, ShieldCheck } from "lucide-react";
 import { BrandLockup } from "@/components/brand/Logos";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BRAND } from "@/lib/brand";
 import { roleLabel, useAuth } from "@/contexts/auth-context";
 import { usePermissions } from "@/hooks/use-permissions";
 import { ADMIN_NAV_ITEMS, MAIN_NAV_ITEMS, type NavItem } from "@/lib/permissions";
@@ -19,8 +20,8 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-screen w-full bg-background">
-      <aside className="hidden md:flex w-64 flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
-        <div className="h-16 px-4 flex items-center border-b border-sidebar-border bg-black/20">
+      <aside className="hidden md:flex w-64 flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border shadow-[inset_-1px_0_0_oklch(1_0_0/0.04)]">
+        <div className="h-[4.5rem] px-4 flex items-center border-b border-sidebar-border bg-black/30">
           <BrandLockup />
         </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
@@ -38,9 +39,9 @@ export function AppShell({ children }: { children: ReactNode }) {
             </>
           )}
         </nav>
-        <div className="px-3 py-3 border-t border-sidebar-border">
-          <div className="text-[10px] uppercase tracking-widest text-sidebar-foreground/50 px-2">
-            v1.1 · ERP
+        <div className="px-3 py-3 border-t border-sidebar-border bg-black/20">
+          <div className="text-[10px] uppercase tracking-widest text-sidebar-foreground/45 px-2">
+            {BRAND.productName}
           </div>
         </div>
       </aside>
@@ -49,13 +50,18 @@ export function AppShell({ children }: { children: ReactNode }) {
         <header className="h-16 border-b bg-card flex items-center justify-between px-4 md:px-6">
           <div>
             <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              ECOPLANET · GRUPO SITSA
+              {BRAND.company} · {BRAND.systemName}
             </div>
-            <div className="text-base font-semibold">Control de Bodega y Despacho</div>
+            <div className="text-base font-semibold text-foreground">
+              Control de bodega y despacho industrial
+            </div>
           </div>
           <div className="flex items-center gap-3">
             {primaryRole && (
-              <Badge variant="secondary" className="gap-1 bg-primary/10 text-primary border-primary/20">
+              <Badge
+                variant="secondary"
+                className="gap-1 bg-primary/10 text-primary border-primary/25"
+              >
                 <ShieldCheck className="h-3 w-3" />
                 {roleLabel(primaryRole)}
               </Badge>
