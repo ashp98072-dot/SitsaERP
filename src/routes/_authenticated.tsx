@@ -1,7 +1,8 @@
 import { createFileRoute, Outlet, Navigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { AppShell } from "@/components/layout/AppShell";
-import { Loader2 } from "lucide-react";
+import { RoutePermissionGuard } from "@/components/auth/RoutePermissionGuard";
+import { PageLoader } from "@/components/common/PageLoader";
 
 export const Route = createFileRoute("/_authenticated")({
   component: AuthLayout,
@@ -10,11 +11,7 @@ export const Route = createFileRoute("/_authenticated")({
 function AuthLayout() {
   const { session, loading, roles } = useAuth();
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-muted-foreground">
-        <Loader2 className="h-5 w-5 animate-spin mr-2" /> Verificando sesión…
-      </div>
-    );
+    return <PageLoader label="Verificando sesión…" />;
   }
   if (!session) return <Navigate to="/login" replace />;
   if (roles.length === 0) {
@@ -29,5 +26,11 @@ function AuthLayout() {
       </div>
     );
   }
-  return <AppShell><Outlet /></AppShell>;
+  return (
+    <AppShell>
+      <RoutePermissionGuard>
+        <Outlet />
+      </RoutePermissionGuard>
+    </AppShell>
+  );
 }

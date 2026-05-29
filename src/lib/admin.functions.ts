@@ -3,7 +3,9 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-const ROLES = ["administrador", "bodega", "despacho", "supervisor"] as const;
+import { APP_ROLES } from "@/utils/constants";
+
+const ROLES = APP_ROLES;
 
 async function assertAdmin(userId: string) {
   const { data, error } = await supabaseAdmin

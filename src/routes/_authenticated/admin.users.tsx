@@ -13,14 +13,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, KeyRound, UserX, UserCheck, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { listAppUsers, createAppUser, setUserRole, setUserActive, resetUserPassword, deleteAppUser } from "@/lib/admin.functions";
-import { roleLabel, AppRole } from "@/lib/auth";
+import { roleLabel, type AppRole } from "@/contexts/auth-context";
+import { APP_ROLES } from "@/utils/constants";
 
 export const Route = createFileRoute("/_authenticated/admin/users")({
   head: () => ({ meta: [{ title: "Usuarios" }] }),
   component: UsersPage,
 });
 
-const ROLES: AppRole[] = ["administrador","bodega","despacho","supervisor"];
+const ROLES = APP_ROLES;
 
 function UsersPage() {
   const qc = useQueryClient();
