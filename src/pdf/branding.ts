@@ -1,4 +1,8 @@
-import { BRAND_ASSETS } from "@/assets/branding";
+import {
+  BRAND_ASSETS,
+  ecoplanetSecondaryInline,
+  sitsaLogoLightInline,
+} from "@/assets/branding";
 import { PDF_BRAND_COPY } from "@/lib/brand";
 
 /** Paleta industrial PDF: grafito, verde corporativo oscuro, acero */
@@ -21,20 +25,16 @@ export const PDF_COPY = {
   division: PDF_BRAND_COPY.divisionNote,
 } as const;
 
-export async function loadBrandImages(): Promise<{ sitsa: string; ecoplanet: string }> {
-  const [sitsa, ecoplanet] = await Promise.all([
-    loadDataUrl(BRAND_ASSETS.sitsa.light),
-    loadDataUrl(BRAND_ASSETS.ecoplanet.secondary),
-  ]);
-  return { sitsa, ecoplanet };
+/** Imágenes oficiales embebidas en build (evita caché HTTP de fetch en PDF). */
+export function loadBrandImages(): { sitsa: string; ecoplanet: string } {
+  return {
+    sitsa: sitsaLogoLightInline,
+    ecoplanet: ecoplanetSecondaryInline,
+  };
 }
 
-async function loadDataUrl(url: string): Promise<string> {
-  const response = await fetch(url);
-  const blob = await response.blob();
-  return new Promise<string>((resolve) => {
-    const reader = new FileReader();
-    reader.onloadend = () => resolve(reader.result as string);
-    reader.readAsDataURL(blob);
-  });
-}
+/** URLs con hash para preview u otros usos en UI. */
+export const PDF_BRAND_IMAGE_URLS = {
+  sitsa: BRAND_ASSETS.sitsa.light,
+  ecoplanet: BRAND_ASSETS.ecoplanet.secondary,
+} as const;

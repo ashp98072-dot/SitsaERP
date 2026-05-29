@@ -1,5 +1,5 @@
-import { BRAND } from "@/lib/brand";
 import { BRAND_ASSETS } from "@/assets/branding";
+import { BRAND } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
 type LogoProps = {
@@ -15,8 +15,7 @@ export function SitsaLogo({ className = "h-10 w-auto", variant = "light" }: Logo
       src={src}
       alt={BRAND.company}
       className={cn("object-contain object-left", className)}
-      width={512}
-      height={512}
+      decoding="async"
       loading="lazy"
     />
   );
@@ -29,8 +28,7 @@ export function EcoplanetLogo({ className = "h-6 w-auto opacity-90" }: LogoProps
       src={BRAND_ASSETS.ecoplanet.secondary}
       alt={BRAND.division}
       className={cn("object-contain", className)}
-      width={512}
-      height={512}
+      decoding="async"
       loading="lazy"
     />
   );

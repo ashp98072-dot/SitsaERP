@@ -10,7 +10,7 @@ export async function buildDispatchPdfDoc(data: DispatchPdfData): Promise<jsPDF>
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = PDF_BRAND.margin;
 
-  const { sitsa, ecoplanet } = await loadBrandImages();
+  const { sitsa, ecoplanet } = loadBrandImages();
   const qr = await createQrDataUrl(data.qrPayload, 96);
 
   drawWatermark(doc, pageWidth, pageHeight);

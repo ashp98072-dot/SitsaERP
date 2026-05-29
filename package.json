@@ -4,9 +4,10 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
+    "branding:sync": "node scripts/sync-branding-assets.mjs",
+    "dev": "node scripts/sync-branding-assets.mjs && vite",
+    "build": "node scripts/sync-branding-assets.mjs && vite build",
+    "build:dev": "node scripts/sync-branding-assets.mjs && vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write ."
