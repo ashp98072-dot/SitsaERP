@@ -19,6 +19,7 @@ export type Permission =
   | "products:read"
   | "products:write"
   | "inventory:read"
+  | "inventory:adjust"
   | "entries:read"
   | "entries:write"
   | "dispatches:read"
@@ -35,6 +36,7 @@ const ROLE_PERMISSIONS: Record<AppRole, ReadonlySet<Permission>> = {
     "products:read",
     "products:write",
     "inventory:read",
+    "inventory:adjust",
     "entries:read",
     "entries:write",
     "dispatches:read",
@@ -48,6 +50,7 @@ const ROLE_PERMISSIONS: Record<AppRole, ReadonlySet<Permission>> = {
     "clients:read",
     "products:read",
     "inventory:read",
+    "inventory:adjust",
     "entries:read",
     "dispatches:read",
     "dispatches:pdf",

@@ -19,8 +19,8 @@ export async function createWarehouseEntry(payload: WarehouseEntryInsert): Promi
     supplier_id: payload.supplier_id ?? null,
     quantity: Number(payload.quantity),
     weight: Number(payload.weight),
-    unit: payload.unit,
-    entry_date: payload.entry_date,
+    unit: payload.unit ?? "lbs",
+    entry_date: payload.entry_date ?? new Date().toISOString().slice(0, 10),
     notes: payload.notes ?? null,
   };
   return registerWarehouseEntryRpc(rpcPayload);

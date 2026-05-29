@@ -34,7 +34,10 @@ export function useDashboardStats() {
 }
 
 export function useStockChartData() {
-  const stock = useQuery({ queryKey: queryKeys.stock, queryFn: fetchInventoryStock });
+  const stock = useQuery({
+    queryKey: queryKeys.inventory.snapshot,
+    queryFn: fetchInventoryStock,
+  });
   const products = useQuery({
     queryKey: queryKeys.products.chart,
     queryFn: fetchProductsForChart,

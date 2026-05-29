@@ -12,6 +12,7 @@ import {
 import type { Product, ProductInsert, ProductUpdate } from "@/types";
 import { getErrorMessage } from "@/utils/errors";
 import { toast } from "sonner";
+import { DEFAULT_PAGE_SIZE } from "@/utils/pagination";
 
 export function useProducts() {
   return useQuery({

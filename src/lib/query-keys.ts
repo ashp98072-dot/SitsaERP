@@ -17,7 +17,15 @@ export const queryKeys = {
   entries: {
     all: ["entries"] as const,
   },
-  stock: ["stock"] as const,
+  /** @deprecated Prefer queryKeys.inventory.enriched */
+  stock: ["inventory", "stock-enriched"] as const,
+  inventory: {
+    enriched: ["inventory", "stock-enriched"] as const,
+    snapshot: ["inventory", "stock-snapshot"] as const,
+    dashboard: ["inventory", "dashboard"] as const,
+    adjustments: ["inventory", "adjustments"] as const,
+    kardex: (productId: string) => ["inventory", "kardex", productId] as const,
+  },
   counts: {
     clients: ["count", "clients"] as const,
     products: ["count", "products"] as const,

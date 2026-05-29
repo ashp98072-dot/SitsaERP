@@ -1,4 +1,4 @@
-import type { Database as GeneratedDatabase } from "./types";
+import type { Database as GeneratedDatabase, Json } from "./types";
 
 /** RPCs and tables added by enterprise migrations (merge after `supabase gen types`). */
 export type Database = GeneratedDatabase & {
@@ -40,6 +40,45 @@ export type Database = GeneratedDatabase & {
           old_values?: Record<string, unknown> | null;
           new_values?: Record<string, unknown> | null;
           metadata?: Record<string, unknown>;
+        };
+        Relationships: [];
+      };
+      inventory_adjustments: {
+        Row: {
+          id: string;
+          product_id: string;
+          direction: string;
+          quantity: number;
+          weight: number;
+          unit: GeneratedDatabase["public"]["Enums"]["unit_type"];
+          reason: string;
+          movement_id: string | null;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          product_id: string;
+          direction: string;
+          quantity: number;
+          weight?: number;
+          unit?: GeneratedDatabase["public"]["Enums"]["unit_type"];
+          reason: string;
+          movement_id?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          product_id?: string;
+          direction?: string;
+          quantity?: number;
+          weight?: number;
+          unit?: GeneratedDatabase["public"]["Enums"]["unit_type"];
+          reason?: string;
+          movement_id?: string | null;
+          created_by?: string | null;
+          created_at?: string;
         };
         Relationships: [];
       };
@@ -101,6 +140,72 @@ export type Database = GeneratedDatabase & {
           p_items: unknown;
         };
         Returns: GeneratedDatabase["public"]["Tables"]["dispatches"]["Row"];
+      };
+      register_inventory_adjustment: {
+        Args: {
+          p_product_id: string;
+          p_direction: string;
+          p_quantity: number;
+          p_weight: number;
+          p_unit: GeneratedDatabase["public"]["Enums"]["unit_type"];
+          p_reason: string;
+        };
+        Returns: {
+          id: string;
+          product_id: string;
+          direction: string;
+          quantity: number;
+          weight: number;
+          unit: GeneratedDatabase["public"]["Enums"]["unit_type"];
+          reason: string;
+          movement_id: string | null;
+          created_by: string | null;
+          created_at: string;
+        };
+      };
+      get_inventory_dashboard_stats: {
+        Args: Record<string, never>;
+        Returns: Record<string, unknown>;
+      };
+    };
+    Views: GeneratedDatabase["public"]["Views"] & {
+      product_stock_enriched: {
+        Row: {
+          product_id: string;
+          code: string;
+          name: string;
+          category: string | null;
+          unit: GeneratedDatabase["public"]["Enums"]["unit_type"];
+          min_stock: number;
+          active: boolean;
+          stock_quantity: number;
+          stock_weight: number;
+          alert_level: string;
+        };
+        Relationships: [];
+      };
+      product_kardex: {
+        Row: {
+          movement_id: string;
+          product_id: string;
+          created_at: string;
+          movement_kind: string;
+          movement_type: GeneratedDatabase["public"]["Enums"]["movement_type"];
+          qty_in: number;
+          qty_out: number;
+          weight_in: number;
+          weight_out: number;
+          unit: GeneratedDatabase["public"]["Enums"]["unit_type"];
+          balance_qty: number;
+          balance_weight: number;
+          reference_type: string | null;
+          reference_id: string | null;
+          notes: string | null;
+          created_by: string | null;
+          created_by_email: string | null;
+          created_by_name: string | null;
+        };
+        Relationships: [];
       };
     };
   };

@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/query-keys";
+import { invalidateInventoryQueries } from "@/hooks/use-inventory";
 import {
   createWarehouseEntry,
   fetchWarehouseEntries,
@@ -46,7 +47,7 @@ export function useCreateEntry() {
     mutationFn: (payload: WarehouseEntryInsert) => createWarehouseEntry(payload),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["entries"] });
-      void queryClient.invalidateQueries({ queryKey: queryKeys.stock });
+      invalidateInventoryQueries(queryClient);
       toast.success("Ingreso registrado");
     },
     onError: (error) => toast.error(getErrorMessage(error)),

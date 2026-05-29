@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/query-keys";
+import { invalidateInventoryQueries } from "@/hooks/use-inventory";
 import {
   createDispatchWithItems,
   fetchDispatches,
@@ -37,7 +38,7 @@ export function useCreateDispatch() {
     }) => createDispatchWithItems(header, items),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["dispatches"] });
-      void queryClient.invalidateQueries({ queryKey: queryKeys.stock });
+      invalidateInventoryQueries(queryClient);
     },
     onError: (error) => toast.error(getErrorMessage(error)),
   });

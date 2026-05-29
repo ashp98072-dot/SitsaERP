@@ -26,3 +26,12 @@ export type {
   Warehouse,
   AuditLog,
 } from "./domain";
+
+export type {
+  StockAlertLevel,
+  InventoryStockRow,
+  KardexRow,
+  InventoryAdjustment,
+  InventoryDashboardStats,
+} from "./inventory";
+export { KARDEX_KIND_LABELS } from "./inventory";
